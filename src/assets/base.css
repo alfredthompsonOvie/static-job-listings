@@ -1,6 +1,20 @@
-/* color palette from <https://github.com/vuejs/theme> */
 :root {
   box-sizing: border-box;
+
+  /* 
+  - Family: [Spartan](https://fonts.google.com/specimen/Spartan)
+  */
+  
+  --ff: 'League Spartan', sans-serif;
+  --fs: 0.9375rem;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  --DesaturatedDarkCyan: hsl(180, 29%, 50%);
+  --LightGrayishCyanBackground: hsl(180, 52%, 96%);
+  --LightGrayishCyan-FilterTablets: hsl(180, 31%, 95%);
+  --DarkGrayishCyan: hsl(180, 8%, 52%);
+  --VeryDarkGrayishCyan: hsl(180, 14%, 20%);
 }
 
 
@@ -26,3 +40,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+img {
+	max-width: 100%;
+	height: auto;
+}
+ul{
+	list-style: none;
+}
+
+.attribution { font-size: 11px; text-align: center; }
+.attribution a { color: hsl(228, 45%, 44%); }
