@@ -18,16 +18,21 @@
 }
 
 .container {
-  grid-row: 2;
+  grid-row: 1/-1;
   grid-column: 2;
   max-width: 1440px;
   width: 100%;
   margin-inline: auto;
   padding: 3em 0em;
+  position: relative;
 }
 
 ul {
   width: 100%;
+  margin-top: 8em;
+}
+.joblists {
+  margin-top: 3em;
 }
 .job {
   padding: 2.4em 1.2em 1em;
@@ -112,4 +117,45 @@ button {
   border-radius: .3em;
   color: inherit;
   cursor: pointer;
+}
+.filterResult {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  margin-top: 3em;
+  padding: 1em;
+}
+.filteredBtnWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+
+}
+.filteredBtn {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding: 0;
+  overflow: hidden;
+  border-radius: .4em;
+  font-size: .7rem;
+}
+.btnContent {
+  padding: .6em .8em;
+
+  color: var(--DesaturatedDarkCyan);
+  background-color: var(--LightGrayishCyan-FilterTablets);
+  cursor: default;
+}
+.deleteBtn {
+  cursor: pointer;
+  padding: .6em .8em;
+  background-color: var(--VeryDarkGrayishCyan);
+  color: #fff;
+}
+.clearBtn {
+  background-color: transparent;
+  text-transform: capitalize;
+  color: var(--DarkGrayishCyan);
+  font-weight: var(--fw-bold);
 }
