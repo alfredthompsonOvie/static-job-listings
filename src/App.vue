@@ -6,34 +6,39 @@
       v-for="joblisting in filterJobBy" 
       :key="joblisting.id"
       class="job"
+      :class="{ featuredJob: joblisting.featured }"
       >
-      <header>
-        <span class="company">
-          {{ joblisting.company }}
-        </span>
-        <span v-if="joblisting.new" class="new">
-          new!
-        </span>
-        <span v-if="joblisting.new" class="feature">
-        featured
-        </span>
-      </header>
-
-      <div class="position">
-        {{ joblisting.position }}
-      </div>
-
+      <img :src="'src/assets/' + joblisting.logo" alt="">
+      <div class="jobDetails">
+        <header>
+          <span class="company">
+            {{ joblisting.company }}
+          </span>
+          <span v-if="joblisting.new" class="new">
+            new!
+          </span>
+          <span v-if="joblisting.featured" class="feature">
+          featured
+          </span>
+        </header>
+  
+        <div class="position">
+          {{ joblisting.position }}
+        </div>
+  
         <footer>
-          <span>
-            {{ joblisting.postedAt }}
-          </span>
-          <span>
-            {{ joblisting.contract }}
-          </span>
-          <span>
-            {{ joblisting.location }}
-          </span>
+            <span class="footer-span">
+              {{ joblisting.postedAt }}
+            </span>
+            <span class="footer-span">
+              {{ joblisting.contract }}
+            </span>
+            <span class="footer-span">
+              {{ joblisting.location }}
+            </span>
         </footer>
+
+      </div>
 
         <div class="filterBy">
           <button v-for="language in joblisting.languages" :key="language">
@@ -61,6 +66,9 @@ export default {
     const joblistings = ref([...JobListings]);
     const filterText = ref("");
 
+
+  
+
     const filterJobBy = computed(() => {
       if (filterText.value === "html") {
         return JobListings.filter(job => {
@@ -74,8 +82,7 @@ export default {
 
     return {
       joblistings,
-      filterJobBy
-      
+      filterJobBy,
     }
   }
 }

@@ -32,14 +32,14 @@ ul {
   width: 100%;
 }
 .job {
-  padding: 1em;
-  border-left: .2em solid var(--DesaturatedDarkCyan);
+  padding: 3em 1em 1em;
   background: var(--LightGrayishCyan-FilterTablets);
   background: #fff;
   border-radius: 5px;
-  /* width: 100%;
-  display: block; */
   position: relative;
+}
+.featuredJob {
+  border-left: .2em solid var(--DesaturatedDarkCyan);
 }
 li + li {
   margin-top: 1em;
@@ -68,22 +68,44 @@ header, footer {
 }
 
 .position {
-  font-weight: var(--fw-medium);
+  font-weight: var(--fw-bold);
+  color: var(--VeryDarkGrayishCyan);
+  margin: .6em 0;
 }
+.footer-span {
+  position: relative;
+  display: block;
+  font-size: .8rem;
+  color: var(--DesaturatedDarkCyan);
 
+}
+footer .footer-span:first-of-type::before {
+  display: none;
+}
+.footer-span::before {
+  content: '';
+  background-color: var(--DesaturatedDarkCyan);
+  width: .25em;
+  height: .25em;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;  
+  left: -10px;
+  transform: translateY(-50%);
+}
 .filterBy {
   border-top: 1px solid var(--DarkGrayishCyan);
   padding: 1em 0 0;
   display: flex;
   gap: .5em;
   color: var(--DesaturatedDarkCyan);
-
+  margin: .6em 0;
 }
 button {
   background-color: var(--LightGrayishCyan-FilterTablets);
   border: 0;
-  padding: .2em .8em;
-  border-radius: 5em;
+  padding: .6em 1em;
+  border-radius: .3em;
   color: inherit;
   cursor: pointer;
 }
