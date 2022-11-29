@@ -36,7 +36,6 @@ ul {
 }
 .job {
   padding: 2.4em 1.2em 1em;
-  background: var(--LightGrayishCyan-FilterTablets);
   background: #fff;
   border-radius: 5px;
   position: relative;
@@ -158,4 +157,28 @@ button {
   text-transform: capitalize;
   color: var(--DarkGrayishCyan);
   font-weight: var(--fw-bold);
+}
+
+@media (min-width: 600px) {
+  .company_logo {
+    width: 3.8em;
+    position: static;
+  }
+  .job {
+    padding:  2em 1.4em;
+    background: #fff;
+    border-radius: 5px;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+  .filterBy {
+    border-top: 0;
+    padding: 0;
+    margin: 0;
+    margin-left: auto;
+    justify-content: flex-end;
+  }
 }
