@@ -24,15 +24,13 @@
   width: 100%;
   margin-inline: auto;
   padding: 3em 0em;
-
-  /* background-color: red; */
 }
 
 ul {
   width: 100%;
 }
 .job {
-  padding: 3em 1em 1em;
+  padding: 2.4em 1.2em 1em;
   background: var(--LightGrayishCyan-FilterTablets);
   background: #fff;
   border-radius: 5px;
@@ -42,12 +40,17 @@ ul {
   border-left: .2em solid var(--DesaturatedDarkCyan);
 }
 li + li {
-  margin-top: 1em;
+  margin-top: 2.8em;
 }
 header, footer {
   display: flex;
   align-items: center;
   gap: 1em;
+}
+.company_logo {
+  width: 3.8em;
+  position: absolute;
+  top: -1.6em;
 }
 .company {
   color: var(--DesaturatedDarkCyan);
@@ -97,7 +100,8 @@ footer .footer-span:first-of-type::before {
   border-top: 1px solid var(--DarkGrayishCyan);
   padding: 1em 0 0;
   display: flex;
-  gap: .5em;
+  flex-wrap: wrap;
+  gap: .8em;
   color: var(--DesaturatedDarkCyan);
   margin: .6em 0;
 }
