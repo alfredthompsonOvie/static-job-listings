@@ -160,6 +160,9 @@ button {
 }
 
 @media (min-width: 600px) {
+  .top-bg {
+    background-image: url(./images/bg-header-desktop.svg);
+  }
   .company_logo {
     width: 3.8em;
     position: static;
