@@ -18,8 +18,10 @@
 			</div>
 			<button class="clearBtn" @click="clearFilter">clear</button>
 		</section>
+		<!-- <Transition name="fade-up">
+    </Transition> -->
 
-		<ul :class="{ joblists: filterByTextLists.length}">
+		<ul :class="{ joblists: filterByTextLists.length }">
 			<li
 				v-for="joblisting in filterJobListingsBy"
 				:key="joblisting.id"
@@ -27,7 +29,7 @@
 				:class="{ featuredJob: joblisting.featured }"
 			>
 				<img
-					:src="'src/assets/' + joblisting.logo"
+				:src="`${imageUrl}/${joblisting.logo}`"
 					alt="company logo"
 					class="company_logo"
 				/>
@@ -103,32 +105,47 @@ export default {
 	setup() {
 		onMounted(() => {
 			const tl = gsap.timeline();
-			tl.fromTo(".job", {
-				y: 50,
-				// scale: .85,
-				autoAlpha: 0.01,
-				ease: "back",
-
-			},
+			tl.fromTo(
+				".job",
+				{
+					y: 50,
+					// scale: .85,
+					autoAlpha: 0.01,
+					ease: "back",
+				},
 				{
 					y: 0,
-				scale: 1,
-				autoAlpha: 1,
-				// opacity: 0,
-				stagger: 0.3,
-				// ease: "power4.out",
-				ease: "back",
-				duration: 1.2
-			})
-		}) 
+					scale: 1,
+					autoAlpha: 1,
+					// opacity: 0,
+					stagger: 0.3,
+					// ease: "power4.out",
+					ease: "back",
+					duration: 1.2,
+				}
+			);
+		});
+		// const animateResults = gsap.timeline({
+		//   paused: true,
+		// })
+		// animateResults.from(".filterResult", {
+		//   autoAlpha: 0.01,
+		//   scale: .5,
+		//   ease: "bounce",
+		// })
+		// onMounted(() => {
+		//   animateResults.play()
+		// })
+
 		const joblistings = ref([...JobListings]);
 		const filterByTextLists = ref([]);
 		const filterJobLists = ref([]);
 
-		// steps to filter 
+		const imageUrl = new URL("./assets/", import.meta.url).href;
+
+		// steps to filter
 		// 1. get the text to filter by
 		// 2. get all the job listing that has that text then display it
-
 		function addTofilterJobLists(jobList) {
 			// console.log("text: " +jobList);
 			const jobListing = joblistings.value.filter((jl) => {
@@ -145,9 +162,7 @@ export default {
 					return jl;
 				}
 			});
-
 			// console.log(jobListing);
-
 			// no duplicate
 			for (let i = 0; i < jobListing.length; i++) {
 				if (filterJobLists.value.includes(jobListing[i])) {
@@ -160,13 +175,11 @@ export default {
 				}
 			}
 			// console.log(filterJobLists.value);
-
 			// no duplicate
 			if (!filterByTextLists.value.includes(jobList)) {
 				filterByTextLists.value.push(jobList);
 			}
 		}
-
 		const filterJobListingsBy = computed(() => {
 			if (filterJobLists.value.length) {
 				return filterJobLists.value;
@@ -174,13 +187,10 @@ export default {
 				return joblistings.value;
 			}
 		});
-
 		// steps to delete a filtered job
 		// using the text filter out all job listing that contains that text
-
 		function deleteFilter(idx) {
-			let removedItem = filterByTextLists.value.splice(idx, 1).join(",")
-
+			let removedItem = filterByTextLists.value.splice(idx, 1).join(",");
 			// get job listing to remove
 			const removeJobFromList = filterJobLists.value.filter((rjl) => {
 				if (rjl.role.includes(removedItem)) {
@@ -196,32 +206,27 @@ export default {
 					return rjl;
 				}
 			});
-
 			// loop through filterJobLists array to remove job
 			for (let i = 0; i < removeJobFromList.length; i++) {
-				filterJobLists.value = filterJobLists.value.filter(job => {
+				filterJobLists.value = filterJobLists.value.filter((job) => {
 					return job !== removeJobFromList[i];
 				});
 			}
 			// for each remaining filter text display job listing
-			filterByTextLists.value.forEach(text=> addTofilterJobLists(text))
-
-
+			filterByTextLists.value.forEach((text) => addTofilterJobLists(text));
 		}
 		function clearFilter() {
 			filterJobLists.value = [];
 			filterByTextLists.value = [];
 		}
-
-
-
-
 		return {
 			filterByTextLists,
 			filterJobListingsBy,
 			addTofilterJobLists,
 			deleteFilter,
-			clearFilter
+			clearFilter,
+
+			imageUrl
 		};
 	},
 };

@@ -77,6 +77,7 @@
 ul {
   width: 100%;
   margin-top: 10em;
+  transition: all .6s ease;
 }
 .joblists {
   margin-top: 3em;
@@ -210,3 +211,35 @@ button {
 
   }
 }
+
+.fade-up-enter-from {
+  opacity: 0;
+  transform: scale(0);
+
+}
+.fade-up-leave-to {
+  opacity: 0;
+  transform: scale(0);
+}
+.fade-up-enter-active, .fade-up-leave-active {
+  transition: all .6s ease;
+}
+.fade-up-move {
+  transition: all .6s ease;
+  position: absolute;
+}
+
+/* .list-enter-from {
+  opacity: 0;
+  transform: scale(0);
+}
+.list-leave-to {
+  opacity: 0;
+  transform: scale(0);
+}
+.list-enter-active, .list-leave-active {
+  transition: all .6s ease;
+}
+.list-move {
+  transition: all .6s ease;
+} */
