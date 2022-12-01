@@ -4,17 +4,17 @@
 		<section class="filterResult" v-if="filterByTextLists.length">
 			<div class="filteredBtnWrapper">
 				<button
-					v-for="filterList in filterByTextLists"
+					v-for="(filterList, idx) in filterByTextLists"
 					:key="filterList"
 					class="filteredBtn"
 				>
 					<span class="btnContent">
 						{{ filterList }}
 					</span>
-					<span class="deleteBtn" @click="j">x</span>
+					<span class="deleteBtn" @click="deleteFilter(idx)">x</span>
 				</button>
 			</div>
-			<button class="clearBtn">clear</button>
+			<button class="clearBtn" @click="clearFilter">clear</button>
 		</section>
 
 		<ul :class="{ joblists: filterByTextLists.length}">
@@ -102,7 +102,12 @@ export default {
 		const filterByTextLists = ref([]);
 		const filterJobLists = ref([]);
 
+		// steps to filter 
+		// 1. get the text to filter by
+		// 2. get all the job listing that has that text then display it
+
 		function addTofilterJobLists(jobList) {
+			// console.log("text: " +jobList);
 			const jobListing = joblistings.value.filter((jl) => {
 				if (jl.role.includes(jobList)) {
 					return jl;
@@ -118,16 +123,22 @@ export default {
 				}
 			});
 
+			// console.log(jobListing);
+
+			// no duplicate
 			for (let i = 0; i < jobListing.length; i++) {
 				if (filterJobLists.value.includes(jobListing[i])) {
 					continue;
 				} else {
-					console.log("pushing");
+					// console.log("pushing");
 					filterJobLists.value.push(jobListing[i]);
-					console.log(filterJobLists.value.length);
-					console.log(filterJobLists.value);
+					// console.log(filterJobLists.value.length);
+					// console.log(filterJobLists.value);
 				}
 			}
+			// console.log(filterJobLists.value);
+
+			// no duplicate
 			if (!filterByTextLists.value.includes(jobList)) {
 				filterByTextLists.value.push(jobList);
 			}
@@ -140,13 +151,54 @@ export default {
 				return joblistings.value;
 			}
 		});
+
+		// steps to delete a filtered job
+		// using the text filter out all job listing that contains that text
+
+		function deleteFilter(idx) {
+			let removedItem = filterByTextLists.value.splice(idx, 1).join(",")
+
+			// get job listing to remove
+			const removeJobFromList = filterJobLists.value.filter((rjl) => {
+				if (rjl.role.includes(removedItem)) {
+					return rjl;
+				}
+				if (rjl.level.includes(removedItem)) {
+					return rjl;
+				}
+				if (rjl.languages.includes(removedItem)) {
+					return rjl;
+				}
+				if (rjl.tools.includes(removedItem)) {
+					return rjl;
+				}
+			});
+
+			// loop through filterJobLists array to remove job
+			for (let i = 0; i < removeJobFromList.length; i++) {
+				filterJobLists.value = filterJobLists.value.filter(job => {
+					return job !== removeJobFromList[i];
+				});
+			}
+			// for each remaining filter text display job listing
+			filterByTextLists.value.forEach(text=> addTofilterJobLists(text))
+
+
+		}
+		function clearFilter() {
+			filterJobLists.value = [];
+			filterByTextLists.value = [];
+		}
+
+
+
+
 		return {
 			filterByTextLists,
-			filterJobLists,
-			joblistings,
-
 			filterJobListingsBy,
 			addTofilterJobLists,
+			deleteFilter,
+			clearFilter
 		};
 	},
 };
