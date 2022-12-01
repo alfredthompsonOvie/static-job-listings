@@ -11,7 +11,9 @@
 					<span class="btnContent">
 						{{ filterList }}
 					</span>
-					<span class="deleteBtn" @click="deleteFilter(idx)">x</span>
+					<span class="deleteBtn" @click="deleteFilter(idx)">
+						<font-awesome-icon icon="fa-solid fa-xmark" />
+					</span>
 				</button>
 			</div>
 			<button class="clearBtn" @click="clearFilter">clear</button>
@@ -93,11 +95,32 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import JobListings from "./data.json";
+import gsap from "gsap";
 
 export default {
 	setup() {
+		onMounted(() => {
+			const tl = gsap.timeline();
+			tl.fromTo(".job", {
+				y: 50,
+				// scale: .85,
+				autoAlpha: 0.01,
+				ease: "back",
+
+			},
+				{
+					y: 0,
+				scale: 1,
+				autoAlpha: 1,
+				// opacity: 0,
+				stagger: 0.3,
+				// ease: "power4.out",
+				ease: "back",
+				duration: 1.2
+			})
+		}) 
 		const joblistings = ref([...JobListings]);
 		const filterByTextLists = ref([]);
 		const filterJobLists = ref([]);

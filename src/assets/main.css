@@ -56,12 +56,16 @@
   color: var(--DesaturatedDarkCyan);
   background-color: var(--LightGrayishCyan-FilterTablets);
   cursor: default;
+  font-size: .8rem;
 }
 .deleteBtn {
   cursor: pointer;
   padding: .6em .8em;
   background-color: var(--VeryDarkGrayishCyan);
   color: #fff;
+}
+.deleteBtn svg {
+  font-size: 1rem;
 }
 .clearBtn {
   background-color: transparent;
