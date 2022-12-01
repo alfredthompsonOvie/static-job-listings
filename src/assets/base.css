@@ -11,9 +11,11 @@
   --fw-bold: 700;
 
   --DesaturatedDarkCyan: hsl(180, 29%, 50%);
+  --DesaturatedDarkCyan-faded: hsla(180, 29%, 50%, .5);
   --LightGrayishCyanBackground: hsl(180, 52%, 96%);
   --LightGrayishCyan-FilterTablets: hsl(180, 31%, 95%);
   --DarkGrayishCyan: hsl(180, 8%, 52%);
+  --DarkGrayishCyan-faded: hsla(180, 8%, 52%, .4);
   --VeryDarkGrayishCyan: hsl(180, 14%, 20%);
 }
 
