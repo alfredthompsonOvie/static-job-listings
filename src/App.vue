@@ -1,34 +1,33 @@
 <template>
 	<div class="top-bg"></div>
 	<div class="container">
-		<section class="filterResult" v-if="filterByTextLists.length">
-			<div class="filteredBtnWrapper">
-				<button
-					v-for="(filterList, idx) in filterByTextLists"
-					:key="filterList"
-					class="filteredBtn"
-				>
-					<span class="btnContent">
-						{{ filterList }}
-					</span>
-					<span class="deleteBtn" @click="deleteFilter(idx)">
-						<font-awesome-icon icon="fa-solid fa-xmark" />
-					</span>
-				</button>
-			</div>
-			<button class="clearBtn" @click="clearFilter">clear</button>
-		</section>
-		<!-- <Transition name="fade-up">
-    </Transition> -->
+		<Transition name="fade-up">
+			<section class="filterResult" v-if="filterByTextLists.length">
+				<div class="filteredBtnWrapper">
+					<button
+						v-for="(filterList, idx) in filterByTextLists"
+						:key="filterList"
+						class="filteredBtn"
+					>
+						<span class="btnContent">
+							{{ filterList }}
+						</span>
+						<span class="deleteBtn" @click="deleteFilter(idx)">
+							<font-awesome-icon icon="fa-solid fa-xmark" />
+						</span>
+					</button>
+				</div>
+				<button class="clearBtn" @click="clearFilter">clear</button>
+			</section>
+    </Transition>
 
-		<ul :class="{ joblists: filterByTextLists.length }">
+		<transition-group tag="ul" name="slide" mode="out-in">
 			<li
 				v-for="joblisting in filterJobListingsBy"
 				:key="joblisting.id"
 				class="job"
 				:class="{ featuredJob: joblisting.featured }"
 			>
-			<!-- :src="`${imageUrl}/${joblisting.logo}`" -->
 				<img
 					:src="`${getImageUrl(joblisting.logo)}`"
 					alt="company logo"
@@ -87,13 +86,13 @@
 					</button>
 				</div>
 			</li>
-		</ul>
+		</transition-group>
 	</div>
-	<div class="attribution" v-if="0">
+	<div class="attribution">
 		Challenge by
 		<a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
 			>Frontend Mentor</a
-		>. Coded by <a href="#">Your Name Here</a>.
+		>. Coded by <a href="https://www.linkedin.com/in/alfredthompsonovie/">Alfred Thompson Ovie</a>.
 	</div>
 </template>
 
@@ -105,44 +104,29 @@ import gsap from "gsap";
 export default {
 	setup() {
 		onMounted(() => {
-			const tl = gsap.timeline();
+			const tl = gsap.timeline({
+				defaults: {
+					ease: "power4.out",
+					duration: 1.2,
+				}
+			});
 			tl.fromTo(
 				".job",
 				{
-					y: 50,
-					// scale: .85,
+					x: -100,
 					autoAlpha: 0.01,
-					ease: "back",
 				},
 				{
-					y: 0,
-					scale: 1,
+					x: 0,
 					autoAlpha: 1,
-					// opacity: 0,
-					stagger: 0.3,
-					// ease: "power4.out",
-					ease: "back",
-					duration: 1.2,
+					stagger: 0.4,
 				}
 			);
 		});
-		// const animateResults = gsap.timeline({
-		//   paused: true,
-		// })
-		// animateResults.from(".filterResult", {
-		//   autoAlpha: 0.01,
-		//   scale: .5,
-		//   ease: "bounce",
-		// })
-		// onMounted(() => {
-		//   animateResults.play()
-		// })
 
 		const joblistings = ref([...JobListings]);
 		const filterByTextLists = ref([]);
 		const filterJobLists = ref([]);
-
-		const imageUrl = new URL("./assets/", import.meta.url).href;
 
 		function getImageUrl(name) {
 			return new URL(`/src/assets/${name}`, import.meta.url).href;
@@ -152,7 +136,6 @@ export default {
 		// 1. get the text to filter by
 		// 2. get all the job listing that has that text then display it
 		function addTofilterJobLists(jobList) {
-			// console.log("text: " +jobList);
 			const jobListing = joblistings.value.filter((jl) => {
 				if (jl.role.includes(jobList)) {
 					return jl;
@@ -167,16 +150,13 @@ export default {
 					return jl;
 				}
 			});
-			// console.log(jobListing);
+
 			// no duplicate
 			for (let i = 0; i < jobListing.length; i++) {
 				if (filterJobLists.value.includes(jobListing[i])) {
 					continue;
 				} else {
-					// console.log("pushing");
 					filterJobLists.value.push(jobListing[i]);
-					// console.log(filterJobLists.value.length);
-					// console.log(filterJobLists.value);
 				}
 			}
 			// console.log(filterJobLists.value);
@@ -230,9 +210,7 @@ export default {
 			addTofilterJobLists,
 			deleteFilter,
 			clearFilter,
-
-			imageUrl,
-			getImageUrl
+			getImageUrl,
 		};
 	},
 };

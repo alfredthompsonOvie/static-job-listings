@@ -1,54 +1,60 @@
 :root {
-  box-sizing: border-box;
+	box-sizing: border-box;
 
-  /* 
+	/* 
   - Family: [Spartan](https://fonts.google.com/specimen/Spartan)
   */
-  
-  --ff: 'League Spartan', sans-serif;
-  --fs: 0.9375rem;
-  --fw-medium: 500;
-  --fw-bold: 700;
 
-  --DesaturatedDarkCyan: hsl(180, 29%, 50%);
-  --DesaturatedDarkCyan-faded: hsla(180, 29%, 50%, .5);
-  --LightGrayishCyanBackground: hsl(180, 52%, 96%);
-  --LightGrayishCyan-FilterTablets: hsl(180, 31%, 95%);
-  --DarkGrayishCyan: hsl(180, 8%, 52%);
-  --DarkGrayishCyan-faded: hsla(180, 8%, 52%, .4);
-  --VeryDarkGrayishCyan: hsl(180, 14%, 20%);
+	--ff: "League Spartan", sans-serif;
+	--fs: 0.9375rem;
+	--fw-medium: 500;
+	--fw-bold: 700;
+
+	--DesaturatedDarkCyan: hsl(180, 29%, 50%);
+	--DesaturatedDarkCyan-faded: hsla(180, 29%, 50%, 0.5);
+	--LightGrayishCyanBackground: hsl(180, 52%, 96%);
+	--LightGrayishCyan-FilterTablets: hsl(180, 31%, 95%);
+	--DarkGrayishCyan: hsl(180, 8%, 52%);
+	--DarkGrayishCyan-faded: hsla(180, 8%, 52%, 0.4);
+	--VeryDarkGrayishCyan: hsl(180, 14%, 20%);
 }
-
-
 
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
+	box-sizing: inherit;
+	margin: 0;
+	padding: 0;
 }
 
 body {
-  min-height: 100vh;
-  color: var(--color-text);
-  background: var(--LightGrayishCyanBackground);
-  transition: color 0.5s, background-color 0.5s;
-  line-height: 1.6;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  font-size: 15px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	min-height: 100vh;
+	color: var(--color-text);
+	background: var(--LightGrayishCyanBackground);
+	transition: color 0.5s, background-color 0.5s;
+	line-height: 1.6;
+	font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
+		sans-serif;
+	font-size: 15px;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 img {
 	max-width: 100%;
 	height: auto;
 }
-ul{
+ul {
 	list-style: none;
 }
 
-.attribution { font-size: 11px; text-align: center; }
-.attribution a { color: hsl(228, 45%, 44%); }
+.attribution {
+  grid-row: 3;
+  grid-column: 2;
+	font-size: 11px;
+	text-align: center;
+}
+.attribution a {
+	color: hsl(228, 45%, 44%);
+}

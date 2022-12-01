@@ -18,20 +18,28 @@
 }
 
 .container {
-  grid-row: 1/-1;
+  grid-row: 1/3;
   grid-column: 2;
   max-width: 1440px;
   width: 100%;
   margin-inline: auto;
   padding: 3em 0em;
   position: relative;
+  display: grid;
+  grid-template-rows: minmax(6em, auto) auto;
+  grid-template-columns: 1fr;
+  align-items: start;
+  /* gap: 1em; */
+  padding-top: 6em;
 }
 .filterResult {
+  grid-row: 1;
+  grid-column: 1/-1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
-  margin-top: 3em;
+  /* margin-top: 3em; */
   padding: 1em;
   border-radius: 5px;
   filter: drop-shadow( 2px 2px .8em var(--DesaturatedDarkCyan-faded));
@@ -61,11 +69,14 @@
 .deleteBtn {
   cursor: pointer;
   padding: .6em .8em;
-  background-color: var(--VeryDarkGrayishCyan);
+  background-color: var(--DesaturatedDarkCyan);
   color: #fff;
 }
 .deleteBtn svg {
   font-size: 1rem;
+}
+.deleteBtn:hover {
+  background-color: var(--VeryDarkGrayishCyan);
 }
 .clearBtn {
   background-color: transparent;
@@ -73,14 +84,17 @@
   color: var(--DarkGrayishCyan);
   font-weight: var(--fw-bold);
 }
+.clearBtn:hover {
+  color: var(--DesaturatedDarkCyan);
+  text-decoration: underline;
+}  
 
 ul {
+  grid-row: 2;
+  grid-column: 1/-1;
   width: 100%;
-  margin-top: 10em;
+  margin-top: 1em;
   transition: all .6s ease;
-}
-.joblists {
-  margin-top: 3em;
 }
 .job {
   max-width: 400px;
@@ -91,6 +105,13 @@ ul {
   border-radius: 5px;
   filter: drop-shadow( 2px 2px .8em var(--DesaturatedDarkCyan-faded));
   position: relative;
+  transition: all .3s ease;
+  cursor: pointer;
+}
+
+.job:hover .position {
+  color: var(--DesaturatedDarkCyan);
+  letter-spacing: 1.1px;
 }
 .featuredJob {
   border-left: .27em solid var(--DesaturatedDarkCyan);
@@ -115,8 +136,7 @@ header, footer {
   font-size: .86rem;
 }
 .new, .feature {
-  line-height: 1;
-  padding: .4em .6em .2em;
+  padding: .2em .8em;
   letter-spacing: .4px;
   color: #fff;
   text-transform: uppercase;
@@ -134,6 +154,7 @@ header, footer {
   font-weight: var(--fw-bold);
   color: var(--VeryDarkGrayishCyan);
   margin: .6em 0;
+  transition: all .3s ease;
 }
 .footer-span {
   position: relative;
@@ -170,7 +191,14 @@ footer .footer-span:first-of-type::before {
 }
 .filterBy button {
   font-size: .74rem;
+  transition: all .6s ease;
 }
+.filterBy button:hover {
+  background-color: var(--DesaturatedDarkCyan);
+  color: #fff;
+  font-size: .74rem;
+}
+
 button {
   background-color: var(--LightGrayishCyan-FilterTablets);
   border: 0;
@@ -178,6 +206,7 @@ button {
   border-radius: .3em;
   color: inherit;
   cursor: pointer;
+  transition: all .3s ease;
 }
 @media (min-width: 900px) {
   .top-bg {
@@ -212,14 +241,10 @@ button {
   }
 }
 
-.fade-up-enter-from {
+.fade-up-enter-from, .fade-up-leave-to {
   opacity: 0;
-  transform: scale(0);
+  transform: translateY(-20px);
 
-}
-.fade-up-leave-to {
-  opacity: 0;
-  transform: scale(0);
 }
 .fade-up-enter-active, .fade-up-leave-active {
   transition: all .6s ease;
@@ -228,18 +253,19 @@ button {
   transition: all .6s ease;
   position: absolute;
 }
+.slide-enter-from {
+  opacity: 0;
+  transform: translateX(-50px);
 
-/* .list-enter-from {
+}
+.slide-leave-to {
   opacity: 0;
-  transform: scale(0);
+  transform: translateX(-50px);
+  position: absolute;
 }
-.list-leave-to {
-  opacity: 0;
-  transform: scale(0);
+.slide-enter-active, .slide-leave-active {
+  transition: all 1s ease;
 }
-.list-enter-active, .list-leave-active {
-  transition: all .6s ease;
+.slide-move {
+  transition: all 1s ease;
 }
-.list-move {
-  transition: all .6s ease;
-} */
