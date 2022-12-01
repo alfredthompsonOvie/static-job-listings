@@ -28,8 +28,9 @@
 				class="job"
 				:class="{ featuredJob: joblisting.featured }"
 			>
+			<!-- :src="`${imageUrl}/${joblisting.logo}`" -->
 				<img
-				:src="`${imageUrl}/${joblisting.logo}`"
+					:src="`${getImageUrl(joblisting.logo)}`"
 					alt="company logo"
 					class="company_logo"
 				/>
@@ -143,6 +144,10 @@ export default {
 
 		const imageUrl = new URL("./assets/", import.meta.url).href;
 
+		function getImageUrl(name) {
+			return new URL(`/src/assets/${name}`, import.meta.url).href;
+		}
+
 		// steps to filter
 		// 1. get the text to filter by
 		// 2. get all the job listing that has that text then display it
@@ -226,7 +231,8 @@ export default {
 			deleteFilter,
 			clearFilter,
 
-			imageUrl
+			imageUrl,
+			getImageUrl
 		};
 	},
 };
