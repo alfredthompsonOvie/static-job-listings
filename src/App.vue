@@ -106,21 +106,18 @@ export default {
 		onMounted(() => {
 			const tl = gsap.timeline({
 				defaults: {
-					ease: "power4.out",
-					duration: 1.2,
+					ease: "back.out",
+					duration: 1.6,
 				}
 			});
-			tl.fromTo(
+			tl.from(
 				".job",
 				{
 					x: -100,
 					autoAlpha: 0.01,
-				},
-				{
-					x: 0,
-					autoAlpha: 1,
 					stagger: 0.4,
-				}
+					rotation: 0.01,
+				},
 			);
 		});
 
