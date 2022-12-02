@@ -61,12 +61,14 @@
 					<button
 						v-if="joblisting.role"
 						@click="addTofilterJobLists(joblisting.role)"
+						class="hvr-bounce-to-right"
 					>
 						{{ joblisting.role }}
 					</button>
 					<button
 						v-if="joblisting.level"
 						@click="addTofilterJobLists(joblisting.level)"
+						class="hvr-bounce-to-right"
 					>
 						{{ joblisting.level }}
 					</button>
@@ -74,6 +76,7 @@
 						v-for="language in joblisting.languages"
 						:key="language"
 						@click="addTofilterJobLists(language)"
+						class="hvr-bounce-to-right"
 					>
 						{{ language }}
 					</button>
@@ -81,6 +84,7 @@
 						v-for="tool in joblisting.tools"
 						:key="tool"
 						@click="addTofilterJobLists(tool)"
+						class="hvr-bounce-to-right"
 					>
 						{{ tool }}
 					</button>
