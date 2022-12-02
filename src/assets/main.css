@@ -107,17 +107,13 @@ ul {
   cursor: pointer;
 }
 
-.job:hover .position {
-  color: var(--DesaturatedDarkCyan);
-  letter-spacing: 1.1px;
-}
 .featuredJob {
   border-left: .27em solid var(--DesaturatedDarkCyan);
 }
 li + li {
   margin-top: 4em;
 }
-header, footer {
+.jobDetails header, .jobDetails footer {
   display: flex;
   align-items: center;
   gap: 1em;
@@ -152,7 +148,11 @@ header, footer {
   font-weight: var(--fw-bold);
   color: var(--VeryDarkGrayishCyan);
   margin: .6em 0;
-  transition: all .3s ease;
+  transition: all .3s ease-out;
+}
+.jobDetails .position:hover {
+  color: var(--DesaturatedDarkCyan);
+  letter-spacing: 1.1px;
 }
 .footer-span {
   position: relative;
@@ -161,10 +161,10 @@ header, footer {
   color: var(--DesaturatedDarkCyan);
 
 }
-footer {
+.jobDetails footer {
   gap: 1.5em;
 }
-footer .footer-span:first-of-type::before {
+.jobDetails footer .footer-span:first-of-type::before {
   display: none;
 }
 .footer-span::before {
@@ -250,6 +250,7 @@ button {
   transition: all .6s ease;
   position: absolute;
 }
+
 .slide-enter-from {
   opacity: 0;
   transform: translateX(-50px);
@@ -260,12 +261,15 @@ button {
   transform: translateX(-50px);
   position: absolute;
 }
-.slide-enter-active, .slide-leave-active {
-  transition: all 1s ease;
+.slide-enter-active, .slide-leave-active, .slide-move {
+  transition: all .5s ease;
 }
-.slide-move {
-  transition: all 1s ease;
+.slide-leave-active {
+  position: absolute;
 }
+/* .slide-move {
+  transition: all 1s ease;
+} */
 
 /* Bounce To Right */
 .hvr-bounce-to-right {

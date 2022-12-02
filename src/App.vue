@@ -1,7 +1,9 @@
 <template>
 	<div class="top-bg"></div>
-	<div class="container">
-		<Transition name="fade-up">
+	<main class="container">
+		<Transition 
+		name="fade-up"
+		>
 			<section class="filterResult" v-if="filterByTextLists.length">
 				<div class="filteredBtnWrapper">
 					<button
@@ -19,9 +21,9 @@
 				</div>
 				<button class="clearBtn" @click="clearFilter">clear</button>
 			</section>
-    </Transition>
+		</Transition>
 
-		<transition-group tag="ul" name="slide" mode="out-in">
+		<ul>
 			<li
 				v-for="joblisting in filterJobListingsBy"
 				:key="joblisting.id"
@@ -90,40 +92,45 @@
 					</button>
 				</div>
 			</li>
-		</transition-group>
-	</div>
-	<div class="attribution">
+		</ul>
+	</main>
+	<footer class="attribution">
 		Challenge by
 		<a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
 			>Frontend Mentor</a
-		>. Coded by <a href="https://www.linkedin.com/in/alfredthompsonovie/">Alfred Thompson Ovie</a>.
-	</div>
+		>. Coded by
+		<a href="https://www.linkedin.com/in/alfredthompsonovie/"
+			>Alfred Thompson Ovie</a
+		>.
+	</footer>
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUpdated } from "vue";
 import JobListings from "./data.json";
 import gsap from "gsap";
 
 export default {
 	setup() {
 		onMounted(() => {
-			const tl = gsap.timeline({
-				defaults: {
-					ease: "back.out",
-					duration: 1.6,
-				}
+			gsap.from(".job", {
+				xPercent: -40,
+				autoAlpha: 0.01,
+				stagger: 0.3,
+				ease: "back.out",
+					duration: 1.8,
+				onComplete: () => gsap.to(".job", { clearProps: "all" }),
 			});
-			tl.from(
-				".job",
-				{
-					x: -100,
-					autoAlpha: 0.01,
-					stagger: 0.4,
-					rotation: 0.01,
-				},
-			);
 		});
+		onUpdated(() => {
+			gsap.from(".job", {
+				yPercent: 30,
+				autoAlpha: 0,
+				ease: "expo.out",
+				duration: 1.6,
+				stagger: 0.3,
+			})
+		})
 
 		const joblistings = ref([...JobListings]);
 		const filterByTextLists = ref([]);
