@@ -108,7 +108,7 @@
 <script>
 import { ref, computed, onMounted, onUpdated } from "vue";
 import JobListings from "./data.json";
-import gsap from "gsap";
+import { gsap } from "gsap";
 
 export default {
 	setup() {
