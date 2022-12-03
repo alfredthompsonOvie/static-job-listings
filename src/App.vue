@@ -113,7 +113,7 @@ export default {
 		onMounted(() => {
 			gsap.from(".job", {
 				autoAlpha: 0.01,
-				xPercent: -15,
+				xPercent: -20,
 				stagger: 0.4,
 				ease: "power3.out",
 				duration: 1.8,

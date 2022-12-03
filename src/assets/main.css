@@ -30,6 +30,7 @@
   grid-template-columns: 1fr;
   align-items: start;
   padding-top: 6em;
+  overflow: hidden;
 }
 .filterResult {
   grid-row: 1;
@@ -118,6 +119,7 @@ li + li {
   align-items: center;
   gap: 1em;
   font-size: .8rem;
+  flex-wrap: wrap;
 }
 .company_logo {
   width: 4em;
@@ -205,6 +207,9 @@ button {
 @media (min-width: 900px) {
   .top-bg {
     background-image: url(./images/bg-header-desktop.svg);
+  }
+  .container {
+    padding: 3em 1em;
   }
   .company_logo {
     width: 5em;
