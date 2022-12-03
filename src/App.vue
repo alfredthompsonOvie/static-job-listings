@@ -4,18 +4,20 @@
 		<Transition name="fade-up">
 			<section class="filterResult" v-if="filterByTextLists.length">
 				<div class="filteredBtnWrapper">
-					<button
-						v-for="(filterList, idx) in filterByTextLists"
-						:key="filterList"
-						class="filteredBtn"
-					>
-						<span class="btnContent">
-							{{ filterList }}
-						</span>
-						<span class="deleteBtn" @click="deleteFilter(idx)">
-							<font-awesome-icon icon="fa-solid fa-xmark" />
-						</span>
-					</button>
+					<TransitionGroup name="btn" appear>
+						<button
+							v-for="(filterList, idx) in filterByTextLists"
+							:key="filterList"
+							class="filteredBtn"
+						>
+							<span class="btnContent">
+								{{ filterList }}
+							</span>
+							<span class="deleteBtn" @click="deleteFilter(idx)">
+								<font-awesome-icon icon="fa-solid fa-xmark" />
+							</span>
+						</button>
+					</TransitionGroup>
 				</div>
 				<button class="clearBtn" @click="clearFilter">clear</button>
 			</section>
@@ -27,6 +29,7 @@
 				:key="joblisting.id"
 				class="job"
 				:class="{ featuredJob: joblisting.featured }"
+				ref="li"
 			>
 				<img
 					:src="`${getImageUrl(joblisting.logo)}`"
@@ -110,25 +113,23 @@ import { gsap } from "gsap";
 
 export default {
 	setup() {
+		const li = ref(null);
 		onMounted(() => {
-			gsap.from(".job", {
-				autoAlpha: 0.01,
-				xPercent: -20,
-				stagger: 0.4,
-				ease: "power3.out",
-				duration: 1.8,
-				onComplete: () => gsap.to(".job", { clearProps: "all" }),
-			});
+			ListZoomIn();
 		});
 		onUpdated(() => {
-			gsap.from(".job", {
-				yPercent: 30,
-				autoAlpha: 0,
-				ease: "expo.out",
-				duration: 1.6,
-				stagger: 0.3,
-			});
+			ListZoomIn();
 		});
+		function ListZoomIn() {
+			gsap.from(li.value, {
+				autoAlpha: 0.01,
+				scale: .7,
+				stagger: 0.2,
+				ease: "back",
+				duration: 1.6,
+				onComplete: () => gsap.to(".job", { clearProps: "all" }),
+			});
+		}
 
 		const joblistings = ref([...JobListings]);
 		const filterByTextLists = ref([]);
@@ -217,6 +218,7 @@ export default {
 			deleteFilter,
 			clearFilter,
 			getImageUrl,
+			li
 		};
 	},
 };
