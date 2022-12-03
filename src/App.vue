@@ -1,9 +1,7 @@
 <template>
 	<div class="top-bg"></div>
 	<main class="container">
-		<Transition 
-		name="fade-up"
-		>
+		<Transition name="fade-up">
 			<section class="filterResult" v-if="filterByTextLists.length">
 				<div class="filteredBtnWrapper">
 					<button
@@ -114,11 +112,11 @@ export default {
 	setup() {
 		onMounted(() => {
 			gsap.from(".job", {
-				xPercent: -40,
 				autoAlpha: 0.01,
-				stagger: 0.3,
-				ease: "back.out",
-					duration: 1.8,
+				xPercent: -15,
+				stagger: 0.4,
+				ease: "power3.out",
+				duration: 1.8,
 				onComplete: () => gsap.to(".job", { clearProps: "all" }),
 			});
 		});
@@ -129,8 +127,8 @@ export default {
 				ease: "expo.out",
 				duration: 1.6,
 				stagger: 0.3,
-			})
-		})
+			});
+		});
 
 		const joblistings = ref([...JobListings]);
 		const filterByTextLists = ref([]);
