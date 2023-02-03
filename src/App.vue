@@ -151,14 +151,21 @@ export default {
 			filterByTextLists.value = [];
 		}
 		function deleteFilter(idx) {
-			
-			let removedItem = filterByTextLists.value.splice(idx, 1);
+			// tag to delete
+			let tag = filterByTextLists.value.splice(idx, 1);
 			// let removedItem = filterByTextLists.value.splice(idx, 1).join(",");
-			console.log(removedItem[0].title);
-			console.log(removedItem[0].category);
-			console.log(idx);
-			console.log("test", test.value);
-			console.log("test property", test.value[removedItem[0].category].indexOf(removedItem[0].title));
+			const idxOfTagToDelete = test.value[tag[0].category].indexOf(tag[0].title)
+			// const tagToDelete = test.value[tag[0].category][idxOfTagToDelete]
+			const deletedTag = test.value[tag[0].category].splice(idxOfTagToDelete, 1)
+			// console.log(tag[0].title);
+			// console.log(tag[0].category);
+			// console.log(idx);
+			// console.log("test before delete", test.value);
+			// console.log("test property", test.value[tag[0].category].splice(idxOfTagToDelete, 1));
+			// console.log("idxOftagToDelete", idxOfTagToDelete);
+			// console.log("tagToDelete", tagToDelete);
+			// console.log("test after delete", test.value);
+
 
 			
 			// get job listing to remove
@@ -197,8 +204,8 @@ export default {
 			// no duplicate
 			// removeDuplicate(getJobsWith(jobName));
 
-			Jobs.value = removeDuplicate(getJobsWith(jobName));
-			// Jobs.value = getRelatedJobs(getJobsWith(jobName));
+			// Jobs.value = removeDuplicate(getJobsWith(jobName));
+			Jobs.value = getRelatedJobs(getJobsWith(jobName));
 
 			// console.log(removeDuplicate(getJobsWith(jobName)));
 			// console.log(filterJobLists.value);
@@ -237,19 +244,20 @@ export default {
 
 			filterByTextLists.value.forEach((st) => {
 				// console.log("outter", st.category);
-				console.log("does tools exist?", test.value.tools.includes(st.title));
-				console.log("does languages exist?", test.value.languages.includes(st.title));
-				if (st.category === "role") {
-					if (!test.value.roles[0].includes(st.title))
-					{
-						test.value.roles[0] = st.title;
-					}
+				// console.log("does tools exist?", test.value.tools.includes(st.title));
+				// console.log("does languages exist?", test.value.languages.includes(st.title));
+				if (st.category === "roles") {
+					test.value.roles[0] = st.title;
 				}
-				if (st.category === "level") {
+				if (st.category === "levels") {
 					test.value.levels[0] = st.title;
 				}
 				if (st.category === "tools") {
 					test.value.tools.push(st.title);
+					if (!test.value.tools.includes(st.title))
+					{
+						test.value.tools.push(st.title);
+					}
 				}
 				if (st.category === "languages") {
 					if (!test.value.languages.includes(st.title))
@@ -274,6 +282,8 @@ export default {
 						return r;
 					}
 				}).filter(x => x!== undefined && x!== null);
+
+			console.log("fr", fr);
 
 			return fr;
 			};
