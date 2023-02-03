@@ -101,7 +101,7 @@ ul {
 	grid-column: 1/-1;
 	width: 100%;
 	margin-top: 1em;
-	transition: all 0.6s ease;
+	/* transition: all 0.8s linear; */
   position: relative;
 }
 .job {
@@ -254,7 +254,7 @@ button {
 	}
 }
 
-.fade-up-enter-from,
+/* .fade-up-enter-from,
 .fade-up-leave-to {
 	opacity: 0;
 	transform: translateY(-20px);
@@ -266,9 +266,9 @@ button {
 .fade-up-move {
 	transition: all 0.6s ease;
 	position: absolute;
-}
+} */
 
-.slide-enter-from {
+/* .slide-enter-from {
 	opacity: 0;
 	transform: translateX(-50px);
 }
@@ -284,7 +284,7 @@ button {
 }
 .slide-leave-active {
 	position: absolute;
-}
+} */
 
 /* Bounce To Right */
 .hvr-bounce-to-right {

@@ -1,10 +1,6 @@
 :root {
 	box-sizing: border-box;
 
-	/* 
-  - Family: [Spartan](https://fonts.google.com/specimen/Spartan)
-  */
-
 	--ff: "League Spartan", sans-serif;
 	--fs: 0.9375rem;
 	--fw-medium: 500;
@@ -33,9 +29,7 @@ body {
 	background: var(--LightGrayishCyanBackground);
 	transition: color 0.5s, background-color 0.5s;
 	line-height: 1.6;
-	font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-		Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
-		sans-serif;
+	font-family: var(--ff);
 	font-size: 15px;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;

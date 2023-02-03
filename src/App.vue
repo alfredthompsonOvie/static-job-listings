@@ -9,27 +9,27 @@
 							v-for="(filterList, idx) in filterByTextLists"
 							:key="filterList"
 							class="filteredBtn"
+							type="button"
 						>
 							<span class="btnContent">
-								{{ filterList }}
+								{{ filterList.title }}
 							</span>
-							<span class="deleteBtn" @click="deleteFilter(idx)">
+							<span class="deleteBtn" @click.prevent="deleteFilter(idx)">
 								<font-awesome-icon icon="fa-solid fa-xmark" />
 							</span>
 						</button>
 					</TransitionGroup>
 				</div>
-				<button class="clearBtn" @click="clearFilter">clear</button>
+				<button class="clearBtn" @click.prevent="clearFilter">clear</button>
 			</section>
 		</Transition>
 
-		<ul>
+		<TransitionGroup tag="ul" mode="out-in" name="fade">
 			<li
 				v-for="joblisting in filterJobListingsBy"
 				:key="joblisting.id"
 				class="job"
 				:class="{ featuredJob: joblisting.featured }"
-				ref="li"
 			>
 				<img
 					:src="`${getImageUrl(joblisting.logo)}`"
@@ -63,14 +63,14 @@
 				<div class="filterBy">
 					<button
 						v-if="joblisting.role"
-						@click="addTofilterJobLists(joblisting.role)"
+						@click.prevent="addTofilterJobLists(joblisting.role, 'roles')"
 						class="hvr-bounce-to-right"
 					>
 						{{ joblisting.role }}
 					</button>
 					<button
 						v-if="joblisting.level"
-						@click="addTofilterJobLists(joblisting.level)"
+						@click.prevent="addTofilterJobLists(joblisting.level, 'levels')"
 						class="hvr-bounce-to-right"
 					>
 						{{ joblisting.level }}
@@ -78,7 +78,7 @@
 					<button
 						v-for="language in joblisting.languages"
 						:key="language"
-						@click="addTofilterJobLists(language)"
+						@click.prevent="addTofilterJobLists(language, 'languages')"
 						class="hvr-bounce-to-right"
 					>
 						{{ language }}
@@ -86,14 +86,14 @@
 					<button
 						v-for="tool in joblisting.tools"
 						:key="tool"
-						@click="addTofilterJobLists(tool)"
+						@click.prevent="addTofilterJobLists(tool, 'tools')"
 						class="hvr-bounce-to-right"
 					>
 						{{ tool }}
 					</button>
 				</div>
 			</li>
-		</ul>
+		</TransitionGroup>
 	</main>
 	<footer class="attribution">
 		Challenge by
@@ -107,121 +107,347 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUpdated } from "vue";
+import { ref, computed, onMounted, onUpdated, onBeforeUpdate } from "vue";
 import JobListings from "./data.json";
-import { gsap } from "gsap";
+// import { gsap } from "gsap";
 
 export default {
 	setup() {
-		const li = ref(null);
-		onMounted(() => {
-			ListZoomIn();
-		});
-		onUpdated(() => {
-			ListZoomIn();
-		});
-		function ListZoomIn() {
-			gsap.from(li.value, {
-				autoAlpha: 0.01,
-				scale: .7,
-				stagger: 0.2,
-				ease: "back",
-				duration: 1.6,
-				onComplete: () => gsap.to(".job", { clearProps: "all" }),
-			});
-		}
-
-		const joblistings = ref([...JobListings]);
+		// console.log(JobListings[0]);
+		// const joblistings = ref([...JobListings]);
+		const SearchJobsWith = ref([]);
 		const filterByTextLists = ref([]);
 		const filterJobLists = ref([]);
-
+		const test = ref({
+				roles: [],
+				levels: [],
+				tools: [],
+				languages: [],
+			});
+		// const filterJobLists = ref([...JobListings]);
+		const Jobs = ref(null);
 		function getImageUrl(name) {
 			return new URL(`/src/assets/${name}`, import.meta.url).href;
+		}
+		onMounted(() => {
+			// console.log("mounted");
+			Jobs.value = JobListings;
+		});
+		onBeforeUpdate(() => {
+			console.log("onBeforeUpdate");
+		});
+		onUpdated(() => {
+			// ListZoomIn();
+
+			console.log("updated");
+		});
+		const filterJobListingsBy = computed(() => {
+			return Jobs.value;
+		});
+		function clearFilter() {
+			filterJobLists.value = [];
+			Jobs.value = JobListings;
+			// filterJobLists.value = [];
+			filterByTextLists.value = [];
+		}
+		function deleteFilter(idx) {
+			
+			let removedItem = filterByTextLists.value.splice(idx, 1);
+			// let removedItem = filterByTextLists.value.splice(idx, 1).join(",");
+			console.log(removedItem[0].title);
+			console.log(removedItem[0].category);
+			console.log(idx);
+			console.log("test", test.value);
+			console.log("test property", test.value[removedItem[0].category].indexOf(removedItem[0].title));
+
+			
+			// get job listing to remove
+			// const removeJobFromList = getJobsWith(removedItem)
+			// console.log(getJobsWith(removedItem));
+			// // loop through filterJobLists array to remove job
+			// console.log("fbj", filterJobLists.value);
+			// for (let i = 0; i < getJobsWith(removedItem).length; i++) {
+			// 	filterJobLists.value = filterJobLists.value.filter((job) => {
+			// 		// console.log("job", job);
+			// 		// console.log(getJobsWith(removedItem)[i]);
+			// 		return job !== getJobsWith(removedItem)[i];
+			// 	});
+			// }
+
+			// // Jobs.value = filterJobLists.value;
+			// console.log("fbj", filterJobLists.value);
+
+			// // move to watch
+			// if (!filterJobLists.value.length) {
+			// 	Jobs.value = JobListings;
+			// }
+
+			// console.log(filterByTextLists.value);
+			// for each remaining filter text display job listing
+			// filterByTextLists.value.forEach((text) => addTofilterJobLists(text));
 		}
 
 		// steps to filter
 		// 1. get the text to filter by
 		// 2. get all the job listing that has that text then display it
-		function addTofilterJobLists(jobList) {
-			const jobListing = joblistings.value.filter((jl) => {
-				if (jl.role.includes(jobList)) {
-					return jl;
-				}
-				if (jl.level.includes(jobList)) {
-					return jl;
-				}
-				if (jl.languages.includes(jobList)) {
-					return jl;
-				}
-				if (jl.tools.includes(jobList)) {
-					return jl;
-				}
-			});
+		function addTofilterJobLists(jobName, category) {
+			// console.log(jobName, category);
+			// console.log(filterJobLists.value.length);
 
 			// no duplicate
-			for (let i = 0; i < jobListing.length; i++) {
-				if (filterJobLists.value.includes(jobListing[i])) {
+			// removeDuplicate(getJobsWith(jobName));
+
+			Jobs.value = removeDuplicate(getJobsWith(jobName));
+			// Jobs.value = getRelatedJobs(getJobsWith(jobName));
+
+			// console.log(removeDuplicate(getJobsWith(jobName)));
+			// console.log(filterJobLists.value);
+			// console.log(filterJobLists.value.length);
+
+			// console.log("filterJobLists: ", filterJobLists.value);
+
+			// ----------------------------------------------------
+			// only listings containing all selected filters should be returned.
+			// -----------------------------------------------------
+			// Jobs.value = filterJobLists.value;
+			// Jobs.value = filterJobLists.value;
+
+			// filterByTextLists.value.push({ title: jobName, category});
+
+			// no duplicate
+			const check = filterByTextLists.value.some((j) => j.title === jobName);
+			if (!check) {
+				filterByTextLists.value.push({ title: jobName, category });
+			}
+
+			// console.log("filterBy", filterByTextLists.value);
+			console.log(getRelatedJobs(getJobsWith(jobName)));
+		}
+
+		const getRelatedJobs = (arr) => {
+			const result = [];
+			for (let i = 0; i < arr.length; i++) {
+				if (result.includes(arr[i])) {
 					continue;
 				} else {
-					filterJobLists.value.push(jobListing[i]);
+					result.unshift(arr[i]);
 				}
 			}
-			// console.log(filterJobLists.value);
-			// no duplicate
-			if (!filterByTextLists.value.includes(jobList)) {
-				filterByTextLists.value.push(jobList);
-			}
-		}
-		const filterJobListingsBy = computed(() => {
-			if (filterJobLists.value.length) {
-				return filterJobLists.value;
-			} else {
-				return joblistings.value;
-			}
-		});
-		// steps to delete a filtered job
-		// using the text filter out all job listing that contains that text
-		function deleteFilter(idx) {
-			let removedItem = filterByTextLists.value.splice(idx, 1).join(",");
-			// get job listing to remove
-			const removeJobFromList = filterJobLists.value.filter((rjl) => {
-				if (rjl.role.includes(removedItem)) {
-					return rjl;
+			
+
+			filterByTextLists.value.forEach((st) => {
+				// console.log("outter", st.category);
+				console.log("does tools exist?", test.value.tools.includes(st.title));
+				console.log("does languages exist?", test.value.languages.includes(st.title));
+				if (st.category === "role") {
+					if (!test.value.roles[0].includes(st.title))
+					{
+						test.value.roles[0] = st.title;
+					}
 				}
-				if (rjl.level.includes(removedItem)) {
-					return rjl;
+				if (st.category === "level") {
+					test.value.levels[0] = st.title;
 				}
-				if (rjl.languages.includes(removedItem)) {
-					return rjl;
+				if (st.category === "tools") {
+					test.value.tools.push(st.title);
 				}
-				if (rjl.tools.includes(removedItem)) {
-					return rjl;
+				if (st.category === "languages") {
+					if (!test.value.languages.includes(st.title))
+					{
+						test.value.languages.push(st.title);
+					}
 				}
+
 			});
-			// loop through filterJobLists array to remove job
-			for (let i = 0; i < removeJobFromList.length; i++) {
-				filterJobLists.value = filterJobLists.value.filter((job) => {
-					return job !== removeJobFromList[i];
+
+			console.log("test from add", test.value);
+			// console.log("result", result);
+			const fr = result.map((r) => {
+				// let newResult = [];
+
+					if (
+						test.value.roles.every(role => role === r.role) &&
+						test.value.levels.every(level => level === r.level) &&
+						test.value.languages.every(language => r.languages.includes(language)) &&
+						test.value.tools.every(tool => r.tools.includes(tool))
+					) {
+						return r;
+					}
+				}).filter(x => x!== undefined && x!== null);
+
+			return fr;
+			};
+			// addTofilterJobLists
+			const removeDuplicate = (arr) => {
+				let searchArr = [];
+				for (let i = 0; i < arr.length; i++) {
+					if (searchArr.includes(arr[i])) {
+						continue;
+					} else {
+						searchArr.unshift(arr[i]);
+					}
+				}
+				return searchArr;
+				// for (let i = 0; i < arr.length; i++) {
+				// 	if (filterJobLists.value.includes(arr[i])) {
+				// 		continue;
+				// 	} else {
+				// 		filterJobLists.value.unshift(arr[i]);
+				// 	}
+				// }
+			};
+			const selectedFilter = (search) => {
+				// if css and html return them only
+				// filterByTextLists.value =
+				// [{title: "frontend", cat: "role"}, {title: "senior", cat: "level"}]
+
+				//firstSearch = getJobsWith(title) for all the css = []
+				//secSearch = getJobsWith(title) for all the html = []
+				// compare new with curr and return unique
+				// all arr
+
+				// const allSearch = []; should be outside this function
+
+				// allSearch.push(getJobsWith(title))
+				// allSearch.filter(job => {
+				// roles = frontend jl.role.includes(title)
+				// languages				jl.level.includes(title)
+				// level = senior		jl.senior.includes(title)
+				// tools 						jl.tools.includes(title)
+
+				// job.role ===
+				// --------------------------------------
+				// --------------------------------------
+				/*
+					const check = filterByTextLists.value.some((j) => j.title === jobName);
+				if (!check) {
+					filterByTextLists.value.push({ title: jobName, category });
+				}
+				[{}, {}, {}, {}, {}]
+				
+				// const searchResult = []
+				// const checkArr = searchResult.some((j) => j.role === jobName);
+					
+				const sR = allSearch.filter((e, i)=> {
+						//e.role = frontend backend fullstack
+						//e.level = senior midweight junior
+						// e.languages
+						// e.tools
+						if e.role already exist skip it
+						return e.role === filterByTextLists.value[i].title ||
+						e.level === filterByTextLists.value[i].title||
+						e.languages.include(filterByTextLists.value[i].title) ||
+						e.tools.include(filterByTextLists.value[i].title)
+					})
+					console.log(sR)
+				*/
+				// --------------------------------------
+				// --------------------------------------
+				// the list
+				// if a job has jl.role and jl.level
+
+				// --------------------------------------
+				// search all jobs only return jobs that roles, lang...
+				// matches filterByTextLists.value
+				// --------------------------------------
+				// --------------------------------------
+				// --------------------------------------
+
+				/**
+				 *  filterByTextLists.value = [
+					{title: senior, category: level}
+					{title: css, category: language}
+				]
+					//e.role = frontend backend fullstack
+						//e.level = senior midweight junior
+						// e.languages
+						// e.tools
+				jobs = [{}, {}, {}, {}, {}]
+				jobs.map(j=> {
+					const result = [];
+					for(let i = 0; i < filterByTextLists.value.length; i++){
+						if(
+							j.role === filterByTextLists.value[i].title ||
+							j.level === filterByTextLists.value[i].title ||
+							j.tools === filterByTextLists.value[i].title ||
+							j.role === filterByTextLists.value[i].title
+							) {
+								result.push(j)
+							}
+	
+					}
+				})
+				 * 
+				 * 
+				 */
+				// --------------------------------------
+				// --------------------------------------
+				// --------------------------------------
+				// })
+
+				JobListings.filter((job) => {
+					return job;
 				});
-			}
-			// for each remaining filter text display job listing
-			filterByTextLists.value.forEach((text) => addTofilterJobLists(text));
-		}
-		function clearFilter() {
-			filterJobLists.value = [];
-			filterByTextLists.value = [];
-		}
-		return {
-			filterByTextLists,
-			filterJobListingsBy,
-			addTofilterJobLists,
-			deleteFilter,
-			clearFilter,
-			getImageUrl,
-			li
-		};
-	},
-};
+			};
+
+			const getJobsWith = (title) => {
+				const result = JobListings.filter((jl) => {
+					if (
+						jl.role.includes(title) ||
+						jl.level.includes(title) ||
+						jl.languages.includes(title) ||
+						jl.tools.includes(title)
+					) {
+						return jl;
+					}
+					// if (jl.level.includes(title)) {
+					// 	return jl;
+					// }
+					// if (jl.languages.includes(title)) {
+					// 	return jl;
+					// }
+					// if (jl.tools.includes(title)) {
+					// 	return jl;
+					// }
+				});
+				// console.log("titles", filterByTextLists.value);
+				// all jobs with title
+				// console.log("getRelatedJobs", result);
+				// return jobs containing only searchTerms
+				// css
+				// css html
+				return result;
+			};
+
+			return {
+				filterByTextLists,
+				filterJobListingsBy,
+				addTofilterJobLists,
+				deleteFilter,
+				clearFilter,
+				getImageUrl,
+				// onEnter,
+				// onBeforeLeave,
+				// onLeave,
+			};
+		},
+	}
+
 </script>
 
-<style></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active,
+.fade-move {
+	transition: all 1s linear;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+}
+
+.fade-leave-active {
+	position: absolute;
+}
+</style>
