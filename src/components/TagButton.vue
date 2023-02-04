@@ -6,14 +6,14 @@
 		<span class="btnContent">
 			{{ tag.title }}
 		</span>
-		<span class="deleteBtn" @click.prevent="deletePost(index)">
+		<span class="deleteBtn" @click.prevent="deleteSelectedFilters(index)">
 			<font-awesome-icon icon="fa-solid fa-xmark" />
 		</span>
 	</button>
 </template>
 
 <script setup>
-// import { defineProps } from 'vue';
+import { usePostStore } from '../store/post';
 
 const props = defineProps({
   tag: {
@@ -25,11 +25,8 @@ const props = defineProps({
     required: true
   }
 })
-const emit = defineEmits(["deletePost"])
 
-const deletePost = (idx) => {
-  emit('deletePost', idx)
-}
+const { deleteSelectedFilters } = usePostStore();
 
 </script>
 

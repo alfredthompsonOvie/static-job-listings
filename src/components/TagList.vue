@@ -1,36 +1,29 @@
 <template>
 	<Transition name="fade-up">
-		<section class="filterResult" v-if="tags.length">
+		<section class="filterResult" v-if="store.NumberOfTags">
 			<div class="filteredBtnWrapper">
 				<TransitionGroup name="btn" appear>
 					<TagButton 
-          v-for="(tag, idx) in tags" 
+          v-for="(tag, idx) in store.tags" 
           :key="tag.title"
           :tag="tag" 
           :index="idx"
-          @deletePost="removeTag"
           />
+          <!-- @deletePost="removeTag" -->
           
 				</TransitionGroup>
 			</div>
-			<button class="clearBtn" @click.prevent="clearFilter">clear</button>
+			<button class="clearBtn" @click.prevent="store.clearSelectedFilters">clear</button>
 		</section>
 	</Transition>
 </template>
 
 <script setup>
 // import { defineProps } from 'vue';
+import { usePostStore } from '../store/post';
 import TagButton from './TagButton.vue';
 
-const props = defineProps({
-  tags: {
-    type: Array,
-    required: true
-  }
-})
-const removeTag = () => {
-  
-}
+const store = usePostStore();
 
 </script>
 
