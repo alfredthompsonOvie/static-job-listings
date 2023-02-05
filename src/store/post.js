@@ -24,46 +24,7 @@ export const usePostStore = defineStore('post', () => {
     if (!checkTag) {
       selectedTags.value.push(details)
     }
-
-    selectedTags.value.forEach((tag) => {
-      if (tag.category === "roles") {
-        test.value.roles[0] = tag.title;
-      }
-      if (tag.category === "levels") {
-        test.value.levels[0] = tag.title;
-      }
-      if (tag.category === "tools") {
-        test.value.tools.push(tag.title);
-        if (!test.value.tools.includes(tag.title))
-        {
-          test.value.tools.push(tag.title);
-        }
-      }
-      if (tag.category === "languages") {
-        if (!test.value.languages.includes(tag.title))
-        {
-          test.value.languages.push(tag.title);
-        }
-      }
-
-    });
-
-    const result = data.map((r) => {
-      if (
-        test.value.roles.every(role => role === r.role) &&
-        test.value.levels.every(level => level === r.level) &&
-        test.value.languages.every(language => r.languages.includes(language)) &&
-        test.value.tools.every(tool => r.tools.includes(tool))
-      ) {
-        
-        return r;
-      }
-    }).filter(x => x!== undefined && x!== null);
-    
-    
-    selectedPosts.value = result;
-
-    
+    updateData()
   }
   
   function deleteSelectedFilters(idx) {
@@ -75,6 +36,20 @@ export const usePostStore = defineStore('post', () => {
       languages: [],
     }
 
+    updateData()
+  }
+  
+  function clearSelectedFilters() {
+    selectedTags.value = [];
+    test.value = {
+				roles: [],
+				levels: [],
+				tools: [],
+				languages: [],
+    }
+    selectedPosts.value = data
+  }
+  const updateData = () => {
     selectedTags.value.forEach((st) => {
       if (st.category === "roles") {
         test.value.roles[0] = st.title;
@@ -110,21 +85,6 @@ export const usePostStore = defineStore('post', () => {
     
     selectedPosts.value = result;
   }
-  
-  function clearSelectedFilters() {
-    selectedTags.value = [];
-    test.value = {
-				roles: [],
-				levels: [],
-				tools: [],
-				languages: [],
-    }
-    selectedPosts.value = data
-  }
-  
-// const removeTag = () => {
-
-// }
 
   return {
     selectedTags,

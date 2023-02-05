@@ -9,17 +9,14 @@
           :tag="tag" 
           :index="idx"
           />
-          <!-- @deletePost="removeTag" -->
-          
 				</TransitionGroup>
 			</div>
-			<button class="clearBtn" @click.prevent="store.clearSelectedFilters">clear</button>
+			<button type="button" class="clearBtn" @click.prevent="store.clearSelectedFilters">clear</button>
 		</section>
 	</Transition>
 </template>
 
 <script setup>
-// import { defineProps } from 'vue';
 import { usePostStore } from '../store/post';
 import TagButton from './TagButton.vue';
 
